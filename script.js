@@ -5,15 +5,18 @@ class Produto {
     }
 
     adicionar(){
+        alert('entrei no adicionar')
         let produto = this.lerDados();
-        if(this.validar(produto) == true){
-            this.Salvar(Produto);
+        if(this.validar(produto)){
+            alert('entrei no if do adicionar')
+            this.salvar(produto);
         }
 
         this.listar();
     }
 
     lerDados(){
+        alert('entrei no ler dados')
         let produto = {}
         produto.id = this.id;
         produto.nomeProduto = document.getElementById('pdnome').value;
@@ -23,6 +26,7 @@ class Produto {
     }
 
     validar(produto){
+        alert('entrei no validar')
         let msg = '';
 
         if (produto.nomeProduto == ''){
@@ -36,18 +40,22 @@ class Produto {
             alert(msg);
             return false;
         }
+        return true;
     }
 
     salvar(produto){
+        alert('entrei no salvar')
         this.arrayProdutos.push(produto);
         this.id++;
     }
 
     listar(){
+        alert('entrei no listar')
         let tbody = document.getElementById('tbody')
         tbody.innerText = '';
 
         for(let i = 0; i < this.arrayProdutos.length; i++){
+            alert('entrei no for do adicionar')
             let tr = tbody.insertRow();
             let td_id = tr.insertCell();
             let td_nome = tr.insertCell();
@@ -59,7 +67,23 @@ class Produto {
             td_preco.innerText = this.arrayProdutos[i].precoProduto;
             let imagem = document.createElement('img');
             imagem.src = 'delete.png';
+            imagem.setAttribute("onclick", "produto.deletar("+this.arrayProdutos[i].id+")")
             td_del.appendChild(imagem);
+        }
+    }
+
+    cancelar(){
+        document.getElementById('pdnome').value = ''
+        document.getElementById('pdpreco').value = ''
+    }
+
+    deletar(id){
+        let tbody = document.getElementById('tbody')
+        for (let i = 0 ; i < this.arrayProdutos.length; i++){
+            if(this.arrayProdutos[i].id == id){
+                this.arrayProdutos.splice(i,1)
+                tbody.deleteRow(i)
+            }
         }
     }
 }
